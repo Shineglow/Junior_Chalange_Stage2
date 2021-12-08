@@ -1,0 +1,39 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Control",
+"class": "Checker",
+"language": "GDScript",
+"path": "res://logic/checker.gd"
+}, {
+"base": "Control",
+"class": "field_activs",
+"language": "GDScript",
+"path": "res://logic/field_activs.gd"
+} ]
+_global_script_class_icons={
+"Checker": "res://logic/checker.gd",
+"field_activs": "res://logic/field_activs.gd"
+}
+
+[application]
+
+config/name="New Game checkers_corners"
+run/main_scene="res://Default_Scene.tscn"
+config/icon="res://icon.png"
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
