@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://logic/checker.gd" type="Script" id=1]
-[ext_resource path="res://gfx/checker_black.png" type="Texture" id=2]
 [ext_resource path="res://gfx/selected.png" type="Texture" id=3]
 
 [node name="Checker" type="Control"]
@@ -15,13 +14,22 @@ __meta__ = {
 [node name="checker_texture" type="TextureRect" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
-texture = ExtResource( 2 )
-
-[node name="btn" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="selected" type="TextureRect" parent="."]
+visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn" type="Control" parent="."]
+margin_right = 256.0
+margin_bottom = 256.0
+__meta__ = {
+"_edit_use_anchors_": false
+}

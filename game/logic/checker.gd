@@ -2,7 +2,7 @@ extends Control
 
 class_name Checker, "res://logic/checker.gd"
 
-onready var textures = [preload("res://gfx/checker_black.png").new(), preload("res://gfx/checker_white.png").new()]
+onready var textures = [preload("res://gfx/checker_black.png"), preload("res://gfx/checker_white.png")]
 
 onready var btn = $btn
 onready var checker_texture = $checker_texture
@@ -10,8 +10,9 @@ onready var selected = $selected
 
 var position setget pos_set
 func pos_set(new_value: Vector2):
-	if (new_value is Vector2 and (new_value.x >= 0 and new_value.y >= 0)):
+	if (new_value.x >= 0 and new_value.y >= 0):
 		position = new_value
+		self.rect_position = self.position*256
 
 var is_selected setget select
 func select(value: bool):
@@ -30,3 +31,4 @@ func btn_gui_input(event):
 		match event.button_index:
 			BUTTON_LEFT:
 				emit_signal("on_checker_click", self)
+				print("on checker click")

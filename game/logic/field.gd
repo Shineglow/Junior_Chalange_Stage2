@@ -7,10 +7,9 @@ var field = []
 var size: int
 var active_checker: Checker
 
-func _ready():
-	size = 8
+func init_field(new_field_size):
 	# генерация поля
-	generate_field(8)
+	generate_field(new_field_size)
 	self.rect_scale *= 0.25
 
 func generate_field(field_size: int):
@@ -32,22 +31,24 @@ func generate_field(field_size: int):
 			else:
 				(cell.cell_img as TextureRect).modulate = Color.indianred
 
-func spawn_checkers(player_owner: field_activs, color_id: int):
-	for y in size:
-		for x in size:
+func spawn_checkers(player_owner: field_activs, texture_id: int):
+	for y in 3:
+		for x in 3:
 			var a = CHECKER_TEMPLATE.instance()
-			a.set_parent(self)
+			add_child(a)
+			a.position = player_owner.start + Vector2(x, y)
+			(a.checker_texture as TextureRect).texture = a.textures[texture_id]
 			a.connect("on_checker_click",self, "checker_pressed")
-			
 
 func checker_pressed(checker):
-	if active_checker != checker:
-		active_checker.is_selected = false
-		active_checker = checker
-		active_checker.is_selected = true
-	elif active_checker == null:
-		active_checker.is_selected = false
-		active_checker = null
+	if active_checker != null:
+		if active_checker != checker:
+			active_checker.is_selected = false
+			active_checker = checker
+			active_checker.is_selected = true
+		else:
+			active_checker = null
+			checker.is_selected = false
 	else:
 		active_checker = checker
 		active_checker.is_selected = true
