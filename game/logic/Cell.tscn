@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://logic/cell.gd" type="Script" id=1]
+[ext_resource path="res://gfx/white.png" type="Texture" id=2]
+
+[node name="Cell" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cell_image" type="TextureRect" parent="."]
+margin_right = 256.0
+margin_bottom = 256.0
+texture = ExtResource( 2 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="move_arrow" type="TextureRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="button" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
