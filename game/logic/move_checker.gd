@@ -14,7 +14,12 @@ func _init(field: Field):
 	_field = field.field
 	_field_size = sqrt(field.field.len())
 
-func find_moves_arround_cecker(checker_pos: Vector2):
+func find_moves_arround_checker(checker_pos: Vector2):
+	for i in _cells_to_move_jump:
+		(i as Cell).highlight()
+	pass
+
+func _try_move(checker_pos: Vector2):
 	for i in 8:
 		var checking_pos = _around[i] + checker_pos
 		# Если координаты в рамках поля
@@ -30,6 +35,8 @@ func find_moves_arround_cecker(checker_pos: Vector2):
 			else:
 				# пробует перепрыгнуть
 				_try_jump(checking_pos + _around[i])
+	
+	
 
 func _try_jump(checker_pos: Vector2):
 	var checking_pos = checker_pos
@@ -42,6 +49,8 @@ func _try_jump(checker_pos: Vector2):
 		if current_cell.checker_on_cell == null:
 			# и отсутствует в списке доступных для хода клеток
 			if _cells_to_move_jump.find(current_cell) == -1:
+				current_cell.change_move_arrow("move_jump")
 				_cells_to_move_jump.append(current_cell)
-				find_moves_arround_cecker(checker_pos)
-					
+
+# добавить функции try_move и try_jump
+#

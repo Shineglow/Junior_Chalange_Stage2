@@ -3,7 +3,7 @@ extends Node
 onready var field = $Field
 onready var _player_instance = preload("res://logic/player.gd")
 
-onready var _move_checker = load("res://logic/move_checker.gd").new()
+onready var _move_checker = load("res://logic/move_checker.gd")
 
 var _player1
 var _player2

@@ -40,10 +40,10 @@ func spawn_checkers(player_owner: field_activs, texture_id: int):
 	for y in 3:
 		for x in 3:
 			var a = CHECKER_TEMPLATE.instance()
-			checkers.add(a)
+			checkers.append(a)
 			add_child(a)
 			a.position = player_owner.start + Vector2(x, y)
-			(field[a.position.y][a.position.x] as Cell).is_empty = false
+			(field[a.position.y][a.position.x] as Cell).checker_on_cell = a
 			(a.checker_texture as TextureRect).texture = a.textures[texture_id]
 			a.connect("on_checker_click",self, "checker_pressed")
 	
