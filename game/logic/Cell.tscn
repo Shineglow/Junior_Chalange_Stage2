@@ -4,14 +4,15 @@
 [ext_resource path="res://gfx/white.png" type="Texture" id=2]
 
 [node name="Cell" type="Control"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 256.0
+margin_bottom = 256.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="cell_image" type="TextureRect" parent="."]
+modulate = Color( 0.827451, 1, 0, 1 )
 margin_right = 256.0
 margin_bottom = 256.0
 texture = ExtResource( 2 )
@@ -23,7 +24,10 @@ __meta__ = {
 [node name="move_arrow" type="TextureRect" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="button" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 256.0
+margin_bottom = 256.0

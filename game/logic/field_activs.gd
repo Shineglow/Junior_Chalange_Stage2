@@ -3,6 +3,7 @@ extends Control
 class_name field_activs, "res://logic/field_activs.gd"
 
 var start: Vector2 # позиция на поле из которой будут генерироваться шашки
+var checkers
 
 func _ready():
 	pass

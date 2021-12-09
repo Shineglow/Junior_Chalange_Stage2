@@ -10,9 +10,19 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Control",
+"class": "Cell",
+"language": "GDScript",
+"path": "res://logic/cell.gd"
+}, {
+"base": "Control",
 "class": "Checker",
 "language": "GDScript",
 "path": "res://logic/checker.gd"
+}, {
+"base": "Control",
+"class": "Field",
+"language": "GDScript",
+"path": "res://logic/field.gd"
 }, {
 "base": "Control",
 "class": "field_activs",
@@ -20,7 +30,9 @@ _global_script_classes=[ {
 "path": "res://logic/field_activs.gd"
 } ]
 _global_script_class_icons={
+"Cell": "res://logic/cell.gd",
 "Checker": "res://logic/checker.gd",
+"Field": "res://logic/field.gd",
 "field_activs": "res://logic/field_activs.gd"
 }
 
