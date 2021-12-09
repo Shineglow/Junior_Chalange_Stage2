@@ -15,6 +15,9 @@ func _init(field: Field):
 	_field_size = sqrt(field.field.len())
 
 func find_moves_arround_checker(checker_pos: Vector2):
+	if _cells_to_move_jump == null:
+		# снять выделение, очистить массив
+		pass
 	for i in _cells_to_move_jump:
 		(i as Cell).highlight()
 	pass
