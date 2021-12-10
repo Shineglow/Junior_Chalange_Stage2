@@ -31,4 +31,4 @@ func btn_gui_input(event):
 		match event.button_index:
 			BUTTON_LEFT:
 				emit_signal("on_checker_click", self)
-				print("on checker click")
+				# print("on checker click")

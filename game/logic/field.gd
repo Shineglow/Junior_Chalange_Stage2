@@ -11,6 +11,8 @@ var size: int
 var all_checkers = []
 var active_checker: Checker
 
+signal on_checker_click(checker)
+
 func init_field(new_field_size):
 	# генерация поля
 	generate_field(new_field_size)
@@ -29,7 +31,8 @@ func generate_field(field_size: int):
 			field[y].append(cell)	
 			add_child(cell)
 			cell.position = Vector2(x, y)
-			
+			cell.checker_on_cell = null
+			cell.is_checker_contain = false
 			if ((x + y) % 2 == 0):
 				(cell.cell_img as TextureRect).modulate = Color.cornsilk
 			else:
@@ -44,8 +47,10 @@ func spawn_checkers(player_owner: field_activs, texture_id: int):
 			add_child(a)
 			a.position = player_owner.start + Vector2(x, y)
 			(field[a.position.y][a.position.x] as Cell).checker_on_cell = a
+			(field[a.position.y][a.position.x] as Cell).is_checker_contain = true
 			(a.checker_texture as TextureRect).texture = a.textures[texture_id]
 			a.connect("on_checker_click",self, "checker_pressed")
+			a.player_owner = player_owner
 	
 	all_checkers += checkers
 	return checkers
@@ -59,12 +64,8 @@ func checker_pressed(checker):
 		else:
 			active_checker = null
 			checker.is_selected = false
+			return
 	else:
 		active_checker = checker
 		active_checker.is_selected = true
-
-func find_moves():
-	pass
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+	emit_signal("on_checker_click",checker)
