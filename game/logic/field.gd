@@ -12,6 +12,7 @@ var all_checkers = []
 var active_checker: Checker
 
 signal on_checker_click(checker)
+signal try_move()
 
 func init_field(new_field_size):
 	# генерация поля
@@ -30,13 +31,24 @@ func generate_field(field_size: int):
 			var cell = CELL_TEMPLATE.instance()
 			field[y].append(cell)	
 			add_child(cell)
+			cell.connect("on_cell_click",self,"cell_click_react")
 			cell.position = Vector2(x, y)
 			cell.checker_on_cell = null
 			cell.is_checker_contain = false
 			if ((x + y) % 2 == 0):
-				(cell.cell_img as TextureRect).modulate = Color.cornsilk
+				cell.set_color(Color.cornsilk)
 			else:
-				(cell.cell_img as TextureRect).modulate = Color.indianred
+				cell.set_color(Color.indianred)
+
+func cell_click_react(cell: Cell):
+	if cell.is_highlight:
+		var pos = active_checker.position
+		(field[pos.y][pos.x] as Cell).is_checker_contain = false
+		active_checker.move_checker(cell.position)
+		cell.checker_on_cell = active_checker
+		cell.is_checker_contain = true
+		
+		emit_signal("try_move")
 
 func spawn_checkers(player_owner: field_activs, texture_id: int):
 	var checkers = []
@@ -56,6 +68,9 @@ func spawn_checkers(player_owner: field_activs, texture_id: int):
 	return checkers
 
 func checker_pressed(checker):
+	emit_signal("on_checker_click",checker)
+	
+func select_checker_logic(checker):
 	if active_checker != null:
 		if active_checker != checker:
 			active_checker.is_selected = false
@@ -68,4 +83,20 @@ func checker_pressed(checker):
 	else:
 		active_checker = checker
 		active_checker.is_selected = true
-	emit_signal("on_checker_click",checker)
+
+func cell_move_active():
+	pass
+	
+func cell_jump_active():
+	pass
+
+func castling(checker_pos_1: Vector2, checker_pos_2: Vector2):
+	var cell1 = (field[checker_pos_1.y][checker_pos_1.x] as Cell)
+	var cell2 = (field[checker_pos_2.y][checker_pos_2.x] as Cell)
+	
+	var temp = cell1.checker_on_cell
+	cell1.checker_on_cell.move_checker(checker_pos_2)
+	cell1.checker_on_cell = cell2.checker_on_cell
+	
+	cell2.checker_on_cell.move_checker(checker_pos_1)
+	cell2.checker_on_cell = temp
