@@ -12,7 +12,6 @@ __meta__ = {
 }
 
 [node name="cell_image" type="TextureRect" parent="."]
-modulate = Color( 0.827451, 1, 0, 1 )
 margin_right = 256.0
 margin_bottom = 256.0
 texture = ExtResource( 2 )
@@ -28,6 +27,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="button" type="Control" parent="."]
-margin_right = 256.0
-margin_bottom = 256.0
+[node name="btn" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
