@@ -10,9 +10,8 @@ onready var selected = $selected
 
 var position setget pos_set
 func pos_set(new_value: Vector2):
-	if (new_value.x >= 0 and new_value.y >= 0):
-		position = new_value
-		self.rect_position = self.position*256
+	position = new_value
+	self.rect_position = self.position*256
 
 var is_selected setget select
 func select(value: bool):
@@ -31,4 +30,7 @@ func btn_gui_input(event):
 		match event.button_index:
 			BUTTON_LEFT:
 				emit_signal("on_checker_click", self)
-				# print("on checker click")
+
+func move_checker(pos: Vector2):
+	self.position = pos
+	pass
