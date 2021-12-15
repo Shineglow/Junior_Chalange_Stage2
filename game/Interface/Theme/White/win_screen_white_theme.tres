@@ -1,0 +1,29 @@
+[gd_resource type="Theme" load_steps=5 format=2]
+
+[ext_resource path="res://gfx/white.png" type="Texture" id=1]
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 256, 256 )
+modulate_color = Color( 0.211765, 0.211765, 0.211765, 1 )
+
+[sub_resource type="StyleBoxTexture" id=2]
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 256, 256 )
+modulate_color = Color( 0.137255, 0.137255, 0.137255, 1 )
+
+[sub_resource type="StyleBoxTexture" id=3]
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 256, 256 )
+modulate_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
+
+[resource]
+Button/colors/font_color = Color( 0.772549, 0.772549, 0.772549, 1 )
+Button/colors/font_color_focus = Color( 0.772549, 0.772549, 0.772549, 1 )
+Button/colors/font_color_hover = Color( 0.772549, 0.772549, 0.772549, 1 )
+Button/colors/font_color_pressed = Color( 0.772549, 0.772549, 0.772549, 1 )
+Button/styles/hover = SubResource( 1 )
+Button/styles/normal = SubResource( 2 )
+Button/styles/pressed = SubResource( 3 )
+Label/colors/font_color = Color( 0.137255, 0.137255, 0.137255, 1 )
+Label/colors/font_outline_modulate = Color( 0.137255, 0.137255, 0.137255, 1 )
