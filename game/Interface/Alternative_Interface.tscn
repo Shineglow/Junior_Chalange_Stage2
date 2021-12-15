@@ -1,0 +1,245 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://logic/field.gd" type="Script" id=1]
+[ext_resource path="res://logic/Interface_Controller.gd" type="Script" id=2]
+[ext_resource path="res://gfx/checker_black.png" type="Texture" id=3]
+[ext_resource path="res://gfx/checker_white.png" type="Texture" id=4]
+[ext_resource path="res://gfx/selected.png" type="Texture" id=5]
+[ext_resource path="res://Interface/Theme/Default_theme.tres" type="Theme" id=6]
+[ext_resource path="res://Interface/Theme/Black/win_screen_black_theme.tres" type="Theme" id=7]
+[ext_resource path="res://Interface/Theme/White/win_screen_white_theme.tres" type="Theme" id=8]
+
+[node name="Alternative_Interface" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1600.0
+margin_bottom = -900.0
+rect_min_size = Vector2( 1600, 900 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Curent_player" type="Control" parent="."]
+anchor_right = 1.0
+margin_left = 50.0
+margin_top = 50.0
+margin_right = -50.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Black" type="MarginContainer" parent="Curent_player"]
+margin_right = 256.0
+margin_bottom = 256.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Black_img" type="TextureRect" parent="Curent_player/Black"]
+margin_right = 256.0
+margin_bottom = 256.0
+texture = ExtResource( 3 )
+
+[node name="Selected" type="TextureRect" parent="Curent_player/Black"]
+visible = false
+margin_right = 256.0
+margin_bottom = 256.0
+texture = ExtResource( 5 )
+
+[node name="White" type="MarginContainer" parent="Curent_player"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -256.0
+margin_bottom = 256.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="White_img" type="TextureRect" parent="Curent_player/White"]
+margin_right = 256.0
+margin_bottom = 256.0
+texture = ExtResource( 4 )
+
+[node name="Selected" type="TextureRect" parent="Curent_player/White"]
+margin_right = 256.0
+margin_bottom = 256.0
+texture = ExtResource( 5 )
+
+[node name="turn_info" type="Control" parent="."]
+anchor_bottom = 1.0
+margin_left = 50.0
+margin_top = 350.0
+margin_right = 300.0
+margin_bottom = -50.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="turn_info"]
+anchor_right = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="turn_counter" type="Label" parent="turn_info/VBoxContainer"]
+margin_right = 250.0
+margin_bottom = 42.0
+theme = ExtResource( 6 )
+text = "Ход: 24"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="turn_info/VBoxContainer"]
+margin_top = 46.0
+margin_right = 250.0
+margin_bottom = 496.0
+rect_min_size = Vector2( 0, 450 )
+scroll_horizontal_enabled = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="turn_info/VBoxContainer/ScrollContainer"]
+
+[node name="control_buttons" type="Control" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -300.0
+margin_top = 350.0
+margin_right = -50.0
+margin_bottom = -50.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="control_buttons"]
+anchor_right = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_end_turn" type="Button" parent="control_buttons/VBoxContainer"]
+margin_right = 250.0
+margin_bottom = 48.0
+theme = ExtResource( 6 )
+text = "Закончить ход"
+
+[node name="Control" type="Control" parent="control_buttons/VBoxContainer"]
+margin_top = 52.0
+margin_right = 250.0
+margin_bottom = 67.0
+rect_min_size = Vector2( 0, 15 )
+
+[node name="btn_restart" type="Button" parent="control_buttons/VBoxContainer"]
+margin_top = 71.0
+margin_right = 250.0
+margin_bottom = 119.0
+theme = ExtResource( 6 )
+text = "Заново"
+
+[node name="desk" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -450.0
+margin_top = -450.0
+margin_right = 450.0
+margin_bottom = 450.0
+rect_min_size = Vector2( 900, 900 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="field" type="Control" parent="desk"]
+rect_min_size = Vector2( 900, 900 )
+mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="checkers" type="Control" parent="desk"]
+rect_min_size = Vector2( 900, 900 )
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="win_screen" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="win_screen"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 7 )
+color = Color( 0.772549, 0.772549, 0.772549, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="end_game_message" type="Label" parent="win_screen"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -527.0
+margin_top = 248.0
+margin_right = 527.0
+margin_bottom = -900.0
+theme = ExtResource( 8 )
+text = "Белые победили!"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="win_screen"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -106.5
+margin_top = -456.0
+margin_right = 106.5
+margin_bottom = -345.0
+rect_pivot_offset = Vector2( 106, 80 )
+theme = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_restart" type="Button" parent="win_screen/VBoxContainer"]
+margin_right = 213.0
+margin_bottom = 63.0
+theme = ExtResource( 8 )
+text = "Рестарт"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="win_screen/VBoxContainer"]
+margin_top = 67.0
+margin_right = 213.0
+margin_bottom = 82.0
+rect_min_size = Vector2( 0, 15 )
+
+[node name="btn_exit" type="Button" parent="win_screen/VBoxContainer"]
+margin_top = 86.0
+margin_right = 213.0
+margin_bottom = 149.0
+theme = ExtResource( 8 )
+text = "Выход"
+__meta__ = {
+"_edit_use_anchors_": false
+}

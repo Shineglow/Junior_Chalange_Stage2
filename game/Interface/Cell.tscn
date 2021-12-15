@@ -3,30 +3,39 @@
 [ext_resource path="res://logic/cell.gd" type="Script" id=1]
 [ext_resource path="res://gfx/white.png" type="Texture" id=2]
 
-[node name="Cell" type="Control"]
-margin_right = 256.0
-margin_bottom = 256.0
+[node name="Cell" type="MarginContainer"]
+margin_right = 128.0
+margin_bottom = 128.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="cell_image" type="TextureRect" parent="."]
-margin_right = 256.0
-margin_bottom = 256.0
+margin_right = 128.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 125, 125 )
 texture = ExtResource( 2 )
+expand = true
 stretch_mode = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="move_arrow" type="TextureRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+visible = false
+margin_right = 128.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 125, 125 )
+expand = true
+stretch_mode = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="btn" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_right = 128.0
+margin_bottom = 128.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
