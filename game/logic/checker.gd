@@ -5,23 +5,24 @@ class_name Checker, "res://logic/checker.gd"
 onready var textures = [preload("res://gfx/checker_black.png"), preload("res://gfx/checker_white.png")]
 
 onready var btn = $btn
-onready var checker_texture = $checker_texture
-onready var selected = $selected
+onready var _checker_texture = $checker_texture
+onready var _selected = $selected
 
-var position setget pos_set
-func pos_set(new_value: Vector2):
+var position setget _pos_set
+func _pos_set(new_value: Vector2):
 	position = new_value
-	self.rect_position = self.position*256
+	self.rect_position = self.position*rect_min_size
 
-var is_selected setget select
-func select(value: bool):
+var is_selected setget _select
+func _select(value: bool):
 	is_selected = value
-	selected.visible = value
+	_selected.visible = value
 
 var player_owner
 signal on_checker_click(checker)
 
 func _ready():
+	#btn.connect("gui_input", self, "btn_gui_input")
 	btn.connect("gui_input", self, "btn_gui_input")
 
 func btn_gui_input(event):
@@ -34,3 +35,11 @@ func btn_gui_input(event):
 func move_checker(pos: Vector2):
 	self.position = pos
 	pass
+
+func checker_init(tex_id, position, min_size, player_owner):
+	_selected.visible = false
+	_checker_texture.texture = textures[tex_id]
+	rect_min_size = min_size
+	rect_size = min_size
+	self.position = position
+	self.player_owner = player_owner

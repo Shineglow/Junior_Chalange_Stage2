@@ -108,6 +108,3 @@ func _try_jump(current: Vector2, last_path):
 									last_path.append(y)
 	
 	return last_path
-
-
-
