@@ -13,7 +13,7 @@ onready var btn = $btn
 
 var is_highlight
 
-onready var path = []
+var path = []
 
 var checker_on_cell
 var is_checker_contain: bool

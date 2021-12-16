@@ -11,7 +11,7 @@ onready var _selected = $selected
 var position setget _pos_set
 func _pos_set(new_value: Vector2):
 	position = new_value
-	self.rect_position = self.position*rect_min_size
+	set_object_pos(new_value)
 
 var is_selected setget _select
 func _select(value: bool):
@@ -34,6 +34,10 @@ func btn_gui_input(event):
 
 func move_checker(pos: Vector2):
 	self.position = pos
+	
+func set_object_pos(target: Vector2):
+	print(target)
+	self.rect_position = self.position*rect_min_size
 	pass
 
 func checker_init(tex_id, position, min_size, player_owner):

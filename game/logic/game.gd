@@ -32,6 +32,11 @@ func end_turn():
 			path_finder.clear_old()
 			field.end_turn()
 			_interface_manager.end_turn()
+		else:
+			if current_player == _player2:
+				_interface_manager.end_game(true)
+			elif current_player == _player1:
+				_interface_manager.end_game(false)
 
 func check_end_game_process():
 	var size = field.field.size()
@@ -42,6 +47,7 @@ func check_end_game_process():
 			field.castling(pos1, pos2)
 
 func restart():
+	print("game")
 	path_finder.clear_old()
 	
 	field.reset()
@@ -52,6 +58,7 @@ func restart():
 	
 	current_player = _player2
 	oponent = _player1
+	_interface_manager.set_winscreen_visibility(false)
 
 func start_new_game():
 	field.init_field(field_size)
@@ -60,6 +67,7 @@ func start_new_game():
 	field.connect("on_checker_click",self,"checker_click_result")
 	_interface_manager.connect("on_end_turn_click", self, "end_turn")
 	_interface_manager.connect("on_restart_click", self, "restart")
+	_interface_manager.connect("on_exit_click", self, "game_quit")
 	
 	_player1 = _player_instance.new()
 	_player2 = _player_instance.new()
@@ -102,3 +110,14 @@ func check_game_end():
 func get_parameter(parameter):
 	if parameter >= 0 and parameter < _parameters.size():
 		return _parameters[parameter]
+
+func _input(event):
+	if event is InputEventKey and event.is_pressed():
+		if event.scancode == KEY_SPACE:
+			for i in 9:
+				var pos1 = current_player.checkers[i].position
+				var pos2 = oponent.checkers[i].position
+				field.castling(pos1, pos2)
+
+func game_quit():
+	get_tree().quit()

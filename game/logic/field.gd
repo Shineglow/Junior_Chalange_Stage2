@@ -2,11 +2,13 @@ extends Control
 
 class_name Field, "res://logic/field.gd"
 
-var CELL_TEMPLATE = preload("res://logic/Cell.tscn")
-var CHECKER_TEMPLATE = preload("res://logic/Checker.tscn")
+var CELL_TEMPLATE = preload("res://Interface/Cell.tscn")
+var CHECKER_TEMPLATE = preload("res://Interface/Checker.tscn")
 
 onready var _field_vision = $field
 onready var _checkers_vision = $checkers
+
+var animator: checker_animator
 
 var field = []
 var size: int
@@ -14,22 +16,41 @@ var size: int
 var checkers = []
 var active_checker: Checker
 var is_already_move: bool
+onready var ghost_checker = $ghost_checker
 
 signal on_checker_click(checker)
 signal try_move()
 
 func init_field(new_field_size):
 	is_already_move = false
+	
 	generate_field(new_field_size)
+	
+	ghost_checker.modulate = Color(1,1,1, 0.5)
+	ghost_checker.visible = false
+	ghost_checker.rect_min_size = field[0][0].rect_min_size
+	
+	animator = checker_animator.new()
 
 func cell_click_react(cell: Cell):
 	if cell.is_highlight:
-		var pos = active_checker.position
-		(field[pos.y][pos.x] as Cell).is_checker_contain = false
-		active_checker.move_checker(cell.position)
-		cell.checker_on_cell = active_checker
-		cell.is_checker_contain = true
+		
+		ghost_checker.texture = active_checker.get_node("checker_texture").texture
+		ghost_checker.rect_position = cell.rect_position
+		ghost_checker.visible = true
+		
+		#var pos = active_checker.position
+		#(field[pos.y][pos.x] as Cell).is_checker_contain = false
+		#active_checker.move_checker(cell.position)
+		#cell.checker_on_cell = active_checker
+		#cell.is_checker_contain = true
 		is_already_move = true
+	elif cell.checker_on_cell == active_checker:
+		is_already_move = false
+		ghost_checker.visible = false
+		# перемещение шашки на её прежнее место
+		# снять выделение с шашки
+		pass
 
 func checker_pressed(checker):
 	emit_signal("on_checker_click",checker)
@@ -49,6 +70,16 @@ func select_checker_logic(checker):
 		active_checker.is_selected = true
 
 func end_turn():
+	var pos = active_checker.position
+	(field[pos.y][pos.x] as Cell).is_checker_contain = false
+	var target_cell_pos = ghost_checker.rect_position/ghost_checker.rect_min_size
+	var cell = field[target_cell_pos.y][target_cell_pos.x] as Cell
+	#active_checker.move_checker(cell.position)
+	for i in cell.path:
+		animator.animation_start(active_checker, active_checker.position-i,0.5)
+	cell.checker_on_cell = active_checker
+	cell.is_checker_contain = true
+	
 	is_already_move = false
 	active_checker.is_selected = false
 	active_checker = null
@@ -110,7 +141,6 @@ func reset():
 	for y in field:
 		for x in y:
 			(x as Cell).reset()
-	
 
 func reset_checkers_of_player(player: field_activs):
 	var i = 0
