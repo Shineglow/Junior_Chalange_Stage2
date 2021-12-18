@@ -156,6 +156,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Tween" type="Tween" parent="desk"]
+
 [node name="field" type="Control" parent="desk"]
 rect_min_size = Vector2( 900, 900 )
 mouse_filter = 1

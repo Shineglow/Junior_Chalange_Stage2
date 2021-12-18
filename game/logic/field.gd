@@ -8,8 +8,6 @@ var CHECKER_TEMPLATE = preload("res://Interface/Checker.tscn")
 onready var _field_vision = $field
 onready var _checkers_vision = $checkers
 
-var animator: checker_animator
-
 var field = []
 var size: int
 
@@ -17,6 +15,36 @@ var checkers = []
 var active_checker: Checker
 var is_already_move: bool
 onready var ghost_checker = $ghost_checker
+
+onready var _tween = $Tween
+
+func animate_move_checker(cell: Cell):
+	_tween.remove_all()
+	var path = []
+	cell.position
+	path.append_array(_get_path(cell.position))
+	path.invert()
+	path.remove(0)
+	for i in path:
+		var end = i*cell.rect_min_size
+		var start = active_checker.rect_position
+		_tween.interpolate_property(active_checker, "rect_position", null, i*cell.rect_min_size, 1, Tween.TRANS_QUAD)
+		_tween.start()
+		print(yield(_tween, "tween_completed"))
+		
+
+func foo(start, end):
+	_tween.interpolate_property(active_checker, "rect_position", null, end, (start-end).length()*0.1, Tween.TRANS_QUAD)
+
+func _get_path(previews_cell_pos: Vector2):
+	var sub_path = []
+	var cell = (field[previews_cell_pos.y][previews_cell_pos.x] as Cell)
+	sub_path.append(cell.previews_cell_pos)
+	
+	if cell.path_lenght <= 2:
+		return sub_path
+
+	return sub_path.append_array(_get_path(cell.previews_cell_pos))
 
 signal on_checker_click(checker)
 signal try_move()
@@ -29,12 +57,9 @@ func init_field(new_field_size):
 	ghost_checker.modulate = Color(1,1,1, 0.5)
 	ghost_checker.visible = false
 	ghost_checker.rect_min_size = field[0][0].rect_min_size
-	
-	animator = checker_animator.new()
 
 func cell_click_react(cell: Cell):
 	if cell.is_highlight:
-		
 		ghost_checker.texture = active_checker.get_node("checker_texture").texture
 		ghost_checker.rect_position = cell.rect_position
 		ghost_checker.visible = true
@@ -74,11 +99,11 @@ func end_turn():
 	(field[pos.y][pos.x] as Cell).is_checker_contain = false
 	var target_cell_pos = ghost_checker.rect_position/ghost_checker.rect_min_size
 	var cell = field[target_cell_pos.y][target_cell_pos.x] as Cell
-	#active_checker.move_checker(cell.position)
-	for i in cell.path:
-		animator.animation_start(active_checker, active_checker.position-i,0.5)
+	
 	cell.checker_on_cell = active_checker
 	cell.is_checker_contain = true
+	
+	animate_move_checker(cell)
 	
 	is_already_move = false
 	active_checker.is_selected = false
