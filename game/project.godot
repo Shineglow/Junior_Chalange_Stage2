@@ -29,11 +29,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://logic/move_checker.gd"
 }, {
-"base": "Node",
-"class": "checker_animator",
-"language": "GDScript",
-"path": "res://logic/checker_animator.gd"
-}, {
 "base": "Control",
 "class": "field_activs",
 "language": "GDScript",
@@ -44,7 +39,6 @@ _global_script_class_icons={
 "Checker": "res://logic/checker.gd",
 "Field": "res://logic/field.gd",
 "Path_finder": "res://logic/move_checker.gd",
-"checker_animator": "res://logic/checker_animator.gd",
 "field_activs": "res://logic/field_activs.gd"
 }
 
