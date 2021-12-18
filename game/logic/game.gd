@@ -29,9 +29,9 @@ func end_turn():
 			current_player = oponent
 			oponent = temp
 			
-			path_finder.clear_old()
 			field.end_turn()
 			_interface_manager.end_turn()
+			path_finder.clear_old()
 		else:
 			if current_player == _player2:
 				_interface_manager.end_game(true)

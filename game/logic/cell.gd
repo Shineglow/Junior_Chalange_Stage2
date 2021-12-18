@@ -13,9 +13,11 @@ onready var btn = $btn
 
 var is_highlight
 
-var path = []
+var previews_cell_pos: Vector2
+var path_lenght: int
+var is_jump_arround_checking: bool
 
-var checker_on_cell
+var checker_on_cell: Checker
 var is_checker_contain: bool
 
 var position setget _pos_seter
@@ -63,5 +65,9 @@ func reset():
 	checker_on_cell = null
 	is_checker_contain = false
 	highlight(false)
-	path = []
-	
+	path_clear()
+
+func path_clear():
+	previews_cell_pos = Vector2.ZERO
+	path_lenght = 0
+	is_jump_arround_checking = false
