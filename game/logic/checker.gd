@@ -11,7 +11,7 @@ onready var _selected = $selected
 var position setget _pos_set
 func _pos_set(new_value: Vector2):
 	position = new_value
-	set_object_pos(new_value)
+	rect_position = position * rect_min_size
 
 var is_selected setget _select
 func _select(value: bool):
@@ -22,7 +22,6 @@ var player_owner
 signal on_checker_click(checker)
 
 func _ready():
-	#btn.connect("gui_input", self, "btn_gui_input")
 	btn.connect("gui_input", self, "btn_gui_input")
 
 func btn_gui_input(event):
@@ -34,11 +33,6 @@ func btn_gui_input(event):
 
 func move_checker(pos: Vector2):
 	self.position = pos
-	
-func set_object_pos(target: Vector2):
-	print(target)
-	self.rect_position = self.position*rect_min_size
-	pass
 
 func checker_init(tex_id, position, min_size, player_owner):
 	_selected.visible = false
