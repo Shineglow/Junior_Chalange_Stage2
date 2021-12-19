@@ -30,7 +30,6 @@ func find_moves_from_checker(checker_pos: Vector2):
 		return
 	cell = checker_pos
 	var jump_cells = _try_jump(checker_pos, 0)
-	print(jump_cells)
 	var move_cells = _get_empty_cells_arround(checker_pos)
 	
 	for i in jump_cells:

@@ -38,7 +38,6 @@ func exit_click():
 	emit_signal("on_exit_click")
 
 func restart_click():
-	print("restart")
 	emit_signal("on_restart_click")
 
 func end_turn_click():

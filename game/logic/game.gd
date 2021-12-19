@@ -47,7 +47,6 @@ func check_end_game_process():
 			field.castling(pos1, pos2)
 
 func restart():
-	print("game")
 	path_finder.clear_old()
 	
 	field.reset()
@@ -98,7 +97,6 @@ func check_game_end():
 	for y in 3:
 		for x in 3:
 			var current_end_pos = end_start + Vector2(x,y)
-			#print(current_end_pos)
 			var cell = (field.field[current_end_pos.y][current_end_pos.x] as Cell)
 			if cell.is_checker_contain:
 				if cell.checker_on_cell.player_owner != current_player:

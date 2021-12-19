@@ -31,9 +31,6 @@ func btn_gui_input(event):
 			BUTTON_LEFT:
 				emit_signal("on_checker_click", self)
 
-func move_checker(pos: Vector2):
-	self.position = pos
-
 func checker_init(tex_id, position, min_size, player_owner):
 	_selected.visible = false
 	_checker_texture.texture = textures[tex_id]

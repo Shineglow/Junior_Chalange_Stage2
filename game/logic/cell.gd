@@ -30,6 +30,7 @@ signal on_cell_click(cell)
 
 func _ready():
 	btn.connect("gui_input",self,"btn_gui_input")
+	path_lenght = 0
 
 func btn_gui_input(event):
 	if event is InputEventMouseButton and event.pressed:
@@ -53,7 +54,6 @@ func highlight(value: bool):
 		(_move_arrow as TextureRect).texture = null
 	
 	is_highlight = value
-	#print(is_highlight)
 	(_move_arrow as TextureRect).visible = value
 
 # Установить цвет ячейки
