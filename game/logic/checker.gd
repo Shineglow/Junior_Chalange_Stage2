@@ -18,7 +18,6 @@ func _select(value: bool):
 	is_selected = value
 	_selected.visible = value
 
-var player_owner
 signal on_checker_click(checker)
 
 func _ready():
@@ -31,10 +30,9 @@ func btn_gui_input(event):
 			BUTTON_LEFT:
 				emit_signal("on_checker_click", self)
 
-func checker_init(tex_id, position, min_size, player_owner):
+func checker_init(tex_id, position, min_size):
 	_selected.visible = false
 	_checker_texture.texture = textures[tex_id]
 	rect_min_size = min_size
 	rect_size = min_size
 	self.position = position
-	self.player_owner = player_owner

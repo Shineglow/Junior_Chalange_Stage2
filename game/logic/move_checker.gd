@@ -12,26 +12,17 @@ var cell
 const _arround = [Vector2(-1, -1),Vector2(0, -1), Vector2(1, -1), Vector2(-1, 0),Vector2(1, 0),Vector2(-1, 1),Vector2(0, 1),Vector2(1, 1)]
 const _arrow_name = ["move_upleft","move_up","move_upright","move_left","move_right","move_downleft","move_down","move_downright","move_jump"]
 
-func set_new(field: Field):
+func _init(field: Field):
 	_field = field
 	_field_size = field.field.size()
 
-func clear_old():
-	for i in _field.field:
-		for y in i:
-			y.highlight(false)
-			y.path_clear()
-
-func find_moves_from_checker(checker_pos: Vector2):
-	clear_old()
-	
-	if cell == checker_pos:
-		cell = null
-		return
-	cell = checker_pos
+func find_moves_from_checker(checker_pos: Vector2):	
 	var jump_cells = _try_jump(checker_pos, 0)
 	var move_cells = _get_empty_cells_arround(checker_pos)
 	
+	return jump_cells.append_array(move_cells)
+
+
 	for i in jump_cells:
 		(_field.field[i.y][i.x] as Cell).highlight(true)
 	for i in move_cells:
@@ -46,6 +37,8 @@ func _get_empty_cells_arround(current: Vector2):
 			var current_cell = (_field.field[cell_pos.y][cell_pos.x] as Cell)
 			if !current_cell.is_checker_contain:
 				current_cell.change_move_arrow(_arrow_name[i])
+				current_cell.path_lenght = 1
+				current_cell.previews_cell_pos = current
 				result_array.append(cell_pos)
 	
 	return result_array

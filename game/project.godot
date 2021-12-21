@@ -10,6 +10,11 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Control",
+"class": "Bot",
+"language": "GDScript",
+"path": "res://logic/bot.gd"
+}, {
+"base": "Control",
 "class": "Cell",
 "language": "GDScript",
 "path": "res://logic/cell.gd"
@@ -30,15 +35,22 @@ _global_script_classes=[ {
 "path": "res://logic/move_checker.gd"
 }, {
 "base": "Control",
+"class": "Player",
+"language": "GDScript",
+"path": "res://logic/player.gd"
+}, {
+"base": "Control",
 "class": "field_activs",
 "language": "GDScript",
 "path": "res://logic/field_activs.gd"
 } ]
 _global_script_class_icons={
+"Bot": "res://logic/bot.gd",
 "Cell": "res://logic/cell.gd",
 "Checker": "res://logic/checker.gd",
 "Field": "res://logic/field.gd",
 "Path_finder": "res://logic/move_checker.gd",
+"Player": "res://logic/player.gd",
 "field_activs": "res://logic/field_activs.gd"
 }
 

@@ -26,7 +26,6 @@ class custom_animator:
 	func _get_lenght(vec: Vector2):
 		return sqrt(vec.x*vec.x + vec.y*vec.y)
 
-
 class_name Field, "res://logic/field.gd"
 
 var CELL_TEMPLATE = preload("res://Interface/Cell.tscn")
@@ -37,6 +36,7 @@ onready var _checkers_vision = $checkers
 
 var field = []
 var size: int
+var corner_size: int
 
 var checkers = []
 var active_checker: Checker
@@ -49,10 +49,18 @@ onready var _tween = $Tween
 signal on_checker_click(checker)
 signal try_move()
 
-func init_field(new_field_size):
+func init_field(new_field_size, corner_size):
+	if new_field_size < 7:
+		new_field_size = 7
+	if corner_size < 0 or corner_size*2 > new_field_size:
+		corner_size = round(new_field_size/2)
+	
+	size = new_field_size
+	self.corner_size = corner_size
+	
 	is_already_move = false
 	
-	generate_field(new_field_size)
+	generate_field(size)
 	
 	ghost_checker.modulate = Color(1,1,1, 0.5)
 	ghost_checker.visible = false
@@ -137,14 +145,14 @@ func generate_field(field_size: int):
 			else:
 				cell.set_color(Color.indianred)
 
-func spawn_checkers(player_owner: field_activs, texture_id: int):
+func spawn_checkers(corner_start_position: Vector2, texture_id: int):
 	var checkers = []
 	for y in 3:
 		for x in 3:
 			var a = CHECKER_TEMPLATE.instance()
 			checkers.append(a)
 			_checkers_vision.add_child(a)
-			a.checker_init(texture_id, player_owner.start+Vector2(x,y), (field[0][0] as Cell).rect_min_size, player_owner)
+			a.checker_init(texture_id, corner_start_position+Vector2(x,y), (field[0][0] as Cell).rect_min_size)
 			(field[a.position.y][a.position.x] as Cell).checker_on_cell = a
 			(field[a.position.y][a.position.x] as Cell).is_checker_contain = true
 			a.connect("on_checker_click",self, "checker_pressed")
@@ -173,7 +181,7 @@ func reset():
 		for x in y:
 			(x as Cell).reset()
 
-func reset_checkers_of_player(player: field_activs):
+func reset_checkers_of_player(player):
 	var i = 0
 	for y in 3:
 		for x in 3:
@@ -183,3 +191,9 @@ func reset_checkers_of_player(player: field_activs):
 			field[pos.y][pos.x].checker_on_cell = che
 			field[pos.y][pos.x].is_checker_contain = true
 			i+=1
+
+func dehighlight_field():
+	for i in field:
+		for y in i:
+			y.highlight(false)
+			y.path_clear()

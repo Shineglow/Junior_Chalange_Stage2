@@ -1,11 +1,9 @@
 extends Node
 
-enum {CELL_SIZE,MAP_SIZE}
-var _parameters = [128,7]
-
 onready var field = $Alternative_Interface/desk
 onready var _interface_manager = $Alternative_Interface
 onready var _player_instance = preload("res://logic/player.gd")
+onready var _bot_instance = preload("res://logic/bot.gd")
 
 onready var _move_checker = load("res://logic/move_checker.gd")
 
@@ -15,12 +13,12 @@ var current_player: field_activs
 var oponent: field_activs
 
 var field_size = 7
-var checkers_size = 3
+var corner_size = 3
 
 var path_finder: Path_finder
 
 func _ready():
-	start_new_game()
+	start_new_game(field_size, corner_size)
 
 func end_turn():
 	if field.is_already_move:
@@ -59,33 +57,53 @@ func restart():
 	oponent = _player1
 	_interface_manager.set_winscreen_visibility(false)
 
-func start_new_game():
-	field.init_field(field_size)
-	path_finder = Path_finder.new()
+func start_new_game(new_field_size, new_corner_size):
+	field.init_field(field_size, new_corner_size)
 	
 	field.connect("on_checker_click",self,"checker_click_result")
 	_interface_manager.connect("on_end_turn_click", self, "end_turn")
 	_interface_manager.connect("on_restart_click", self, "restart")
 	_interface_manager.connect("on_exit_click", self, "game_quit")
 	
-	_player1 = _player_instance.new()
-	_player2 = _player_instance.new()
 	
-	_player1.name = "Black"
-	_player2.name = "White"
 	
-	_player1.start = Vector2(0, 0)
-	_player2.start = Vector2(field_size-checkers_size, field_size-checkers_size)
+	_player2 = init_bot(Vector2(0,0), 1)
+	oponent = _player2
 	
-	_player1.checkers = field.spawn_checkers(_player1, 0)
-	_player2.checkers = field.spawn_checkers(_player2, 1)
+	var corner_pos = field_size - corner_size 
+	_player1 = init_player("White", Vector2(corner_pos, corner_pos), 0)
+	current_player = _player1
 	
-	current_player = _player2
-	oponent = _player1
+	
+	_player1.path_finder = Path_finder.new(field)
+	_player2.path_finder = Path_finder.new(field)
+
+func init_player(name, corner_start_pos, checkers_color):
+	var player = _player_instance.new()
+	player.name = name
+	player.start = corner_start_pos
+	player.checkers = field.spawn_checkers(corner_start_pos, checkers_color)
+	player.path_finder = Path_finder.new(field)
+	return player
+
+func init_bot(corner_start_pos,checkers_color):
+	var bot = _bot_instance.new()
+	bot.name = "Bot"
+	bot.start = corner_start_pos
+	bot.checkers = field.spawn_checkers(corner_start_pos, checkers_color)
+	bot.path_finder = Path_finder.new(field)
+	return bot
 
 func checker_click_result(checker):
-	if current_player == checker.player_owner:
-		if !field.is_already_move:
+	if current_player.checker_recognition(checker):
+		if field.active_checker != checker:
+			field.dehighlight_field()
+			current_player.show_moves(checker)
+		else:
+			field.dehighlight_field()
+
+func get_moves(checker):
+	if !field.is_already_move:
 			field.select_checker_logic(checker)
 			path_finder.set_new(field)
 			path_finder.find_moves_from_checker(checker.position)
@@ -104,10 +122,6 @@ func check_game_end():
 			else:
 				return false
 	return true
-
-func get_parameter(parameter):
-	if parameter >= 0 and parameter < _parameters.size():
-		return _parameters[parameter]
 
 func _input(event):
 	if event is InputEventKey and event.is_pressed():
