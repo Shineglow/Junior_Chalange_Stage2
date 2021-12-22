@@ -10,20 +10,25 @@ class_name Bot, "res://logic/bot.gd"
 #               блокировка шашек опонента
 # Нужно попробовать совершить несколько ходов за себя и опонента
 
+
+
 # вызывается при передаче хода. содержит основную логику
 func take_turn():
 	pass
 
 # сравнивает длинну возможных ходов
-func compare_moves_lenght():
+func _compare_moves_lenght():
 	pass
 
 # сравнивает растояние до целевых клеток
-func compare_target_cells():
+func _compare_target_cells():
+	pass
+
+func _cut_negative_lenght_moves():
 	pass
 
 # эмитирует ход соперника
-func predict_player():
+func _predict_player():
 	pass
 
 # рассчёт текущего хода

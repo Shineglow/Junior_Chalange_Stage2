@@ -29,7 +29,6 @@ func end_turn():
 			
 			field.end_turn()
 			_interface_manager.end_turn()
-			path_finder.clear_old()
 		else:
 			if current_player == _player2:
 				_interface_manager.end_game(true)
@@ -65,8 +64,6 @@ func start_new_game(new_field_size, new_corner_size):
 	_interface_manager.connect("on_restart_click", self, "restart")
 	_interface_manager.connect("on_exit_click", self, "game_quit")
 	
-	
-	
 	_player2 = init_bot(Vector2(0,0), 1)
 	oponent = _player2
 	
@@ -77,6 +74,9 @@ func start_new_game(new_field_size, new_corner_size):
 	
 	_player1.path_finder = Path_finder.new(field)
 	_player2.path_finder = Path_finder.new(field)
+	
+	_player1.path_finder.is_valid()
+	_player2.path_finder.is_valid()
 
 func init_player(name, corner_start_pos, checkers_color):
 	var player = _player_instance.new()
@@ -94,19 +94,29 @@ func init_bot(corner_start_pos,checkers_color):
 	bot.path_finder = Path_finder.new(field)
 	return bot
 
-func checker_click_result(checker):
+# возможно стоит переименовать
+func checker_click_result(checker: Checker):
 	if current_player.checker_recognition(checker):
-		if field.active_checker != checker:
-			field.dehighlight_field()
-			current_player.show_moves(checker)
+		if field.active_checker != null:
+			if field.active_checker != checker:
+				field.dehighlight_field()
+				_select_checker_highlight_moves(checker)
+			else:
+				field.select_checker_logic(checker)
+				field.dehighlight_field()
 		else:
-			field.dehighlight_field()
+			_select_checker_highlight_moves(checker)
+
+func _select_checker_highlight_moves(checker: Checker):
+	field.select_checker_logic(checker)
+	for i in current_player.get_checker_moves(checker):
+		field.field[i.y][i.x].highlight(true)
 
 func get_moves(checker):
 	if !field.is_already_move:
-			field.select_checker_logic(checker)
-			path_finder.set_new(field)
-			path_finder.find_moves_from_checker(checker.position)
+		field.select_checker_logic(checker)
+		path_finder.set_new(field)
+		path_finder.find_moves_from_checker(checker.position)
 
 func check_game_end():
 	var cells_to_win = current_player.checkers.size()
@@ -117,7 +127,7 @@ func check_game_end():
 			var current_end_pos = end_start + Vector2(x,y)
 			var cell = (field.field[current_end_pos.y][current_end_pos.x] as Cell)
 			if cell.is_checker_contain:
-				if cell.checker_on_cell.player_owner != current_player:
+				if !current_player.checker_recognition(cell.checker_on_cell):
 					return false
 			else:
 				return false

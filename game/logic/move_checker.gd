@@ -14,13 +14,13 @@ const _arrow_name = ["move_upleft","move_up","move_upright","move_left","move_ri
 
 func _init(field: Field):
 	_field = field
-	_field_size = field.field.size()
+	_field_size = field.size
 
 func find_moves_from_checker(checker_pos: Vector2):	
 	var jump_cells = _try_jump(checker_pos, 0)
 	var move_cells = _get_empty_cells_arround(checker_pos)
-	
-	return jump_cells.append_array(move_cells)
+	jump_cells.append_array(move_cells)
+	return jump_cells
 
 
 	for i in jump_cells:
@@ -75,3 +75,6 @@ func is_coordinates_is_valid(cell_pos: Vector2):
 	var condition_a = cell_pos.x >= 0 and cell_pos.x < _field_size
 	var condition_b = cell_pos.y >= 0 and cell_pos.y < _field_size
 	return condition_a and condition_b
+
+func is_valid():
+	print("path_finder is valid")

@@ -60,7 +60,7 @@ func init_field(new_field_size, corner_size):
 	
 	is_already_move = false
 	
-	generate_field(size)
+	_generate_field(size)
 	
 	ghost_checker.modulate = Color(1,1,1, 0.5)
 	ghost_checker.visible = false
@@ -79,7 +79,7 @@ func cell_click_react(cell: Cell):
 
 func checker_pressed(checker):
 	emit_signal("on_checker_click",checker)
-	
+
 func select_checker_logic(checker):
 	if active_checker != null:
 		if active_checker != checker:
@@ -107,6 +107,7 @@ func end_turn():
 	is_already_move = false
 	active_checker.is_selected = false
 	active_checker = null
+	dehighlight_field()
 
 func _get_path(current_pos: Vector2):
 		var sub_path = []
@@ -121,7 +122,7 @@ func _get_path(current_pos: Vector2):
 		
 		return sub_path
 
-func generate_field(field_size: int):
+func _generate_field(field_size: int):
 	if field_size >= 7:
 		size = field_size
 	else:
@@ -160,6 +161,7 @@ func spawn_checkers(corner_start_position: Vector2, texture_id: int):
 	self.checkers += checkers
 	return checkers
 
+# функция для проверки логики конца игры
 func castling(checker_pos_1: Vector2, checker_pos_2: Vector2):
 	var cell1 = (field[checker_pos_1.y][checker_pos_1.x] as Cell)
 	var cell2 = (field[checker_pos_2.y][checker_pos_2.x] as Cell)
