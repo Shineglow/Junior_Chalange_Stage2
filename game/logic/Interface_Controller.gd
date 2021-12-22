@@ -42,7 +42,7 @@ func restart_click():
 
 func end_turn_click():
 	emit_signal("on_end_turn_click")
-	
+
 func end_turn():
 	_change_active_player()
 	_add_turn()

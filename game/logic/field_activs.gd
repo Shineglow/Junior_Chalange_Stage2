@@ -2,10 +2,17 @@ extends Control
 
 class_name field_activs, "res://logic/field_activs.gd"
 
+var field_interface: Field_interact
 var path_finder: Path_finder
 
-var start: Vector2 # позиция на поле из которой будут генерироваться шашки
+var start_position: Vector2
+var start_multiplier: int
+
+var target_position: Vector2
+var target_multiplier: int
+
 var checkers = []
+var is_playing_white: bool
 
 signal end_turn()
 
@@ -24,3 +31,6 @@ func _pass_turn():
 
 func checker_recognition(checker: Checker):
 	return checkers.find(checker) != -1
+
+func checker_click(checker):
+	pass

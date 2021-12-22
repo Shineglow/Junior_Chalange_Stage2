@@ -89,6 +89,7 @@ func select_checker_logic(checker):
 		else:
 			active_checker = null
 			checker.is_selected = false
+			ghost_checker.visible = false
 	else:
 		active_checker = checker
 		active_checker.is_selected = true
@@ -96,6 +97,7 @@ func select_checker_logic(checker):
 func end_turn():
 	var pos = active_checker.position
 	(field[pos.y][pos.x] as Cell).is_checker_contain = false
+	(field[pos.y][pos.x] as Cell).checker_on_cell = null
 	var cell = field[gc_position.y][gc_position.x] as Cell
 	
 	cell.checker_on_cell = active_checker
@@ -104,6 +106,7 @@ func end_turn():
 	var animator = custom_animator.new(cell, active_checker, _tween, _get_path(cell.position))
 	animator.animate_move_checker()
 	
+	ghost_checker.visible = false
 	is_already_move = false
 	active_checker.is_selected = false
 	active_checker = null
@@ -146,14 +149,15 @@ func _generate_field(field_size: int):
 			else:
 				cell.set_color(Color.indianred)
 
-func spawn_checkers(corner_start_position: Vector2, texture_id: int):
+func spawn_checkers(corner_start_position: Vector2, multiplier: int, texture_id: int):
 	var checkers = []
+	
 	for y in 3:
 		for x in 3:
 			var a = CHECKER_TEMPLATE.instance()
 			checkers.append(a)
 			_checkers_vision.add_child(a)
-			a.checker_init(texture_id, corner_start_position+Vector2(x,y), (field[0][0] as Cell).rect_min_size)
+			a.checker_init(texture_id, corner_start_position + (Vector2(x,y)*multiplier), (field[0][0] as Cell).rect_min_size)
 			(field[a.position.y][a.position.x] as Cell).checker_on_cell = a
 			(field[a.position.y][a.position.x] as Cell).is_checker_contain = true
 			a.connect("on_checker_click",self, "checker_pressed")
@@ -167,13 +171,14 @@ func castling(checker_pos_1: Vector2, checker_pos_2: Vector2):
 	var cell2 = (field[checker_pos_2.y][checker_pos_2.x] as Cell)
 	
 	var temp = cell1.checker_on_cell
-	cell1.checker_on_cell.move_checker(checker_pos_2)
+	cell1.checker_on_cell.position = checker_pos_2
 	cell1.checker_on_cell = cell2.checker_on_cell
 	
-	cell2.checker_on_cell.move_checker(checker_pos_1)
+	cell2.checker_on_cell.position = checker_pos_1
 	cell2.checker_on_cell = temp
 
 func reset():
+	dehighlight_field()
 	if active_checker != null:
 		active_checker.is_selected = false
 		active_checker = null

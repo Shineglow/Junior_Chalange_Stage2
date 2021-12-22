@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://logic/field.gd" type="Script" id=1]
 [ext_resource path="res://logic/Interface_Controller.gd" type="Script" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://gfx/selected.png" type="Texture" id=5]
 [ext_resource path="res://Interface/Theme/Default_theme.tres" type="Theme" id=6]
 [ext_resource path="res://Interface/Theme/Black/win_screen_black_theme.tres" type="Theme" id=7]
-[ext_resource path="res://Interface/Theme/White/win_screen_white_theme.tres" type="Theme" id=8]
 
 [node name="Alternative_Interface" type="Control"]
 anchor_right = 1.0
@@ -192,10 +191,9 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="win_screen"]
+modulate = Color( 0.137255, 0.137255, 0.137255, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 7 )
-color = Color( 0.772549, 0.772549, 0.772549, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -208,7 +206,7 @@ margin_left = -527.0
 margin_top = 248.0
 margin_right = 527.0
 margin_bottom = -900.0
-theme = ExtResource( 8 )
+theme = ExtResource( 7 )
 text = "Белые победили!"
 align = 1
 __meta__ = {
@@ -225,7 +223,6 @@ margin_top = -456.0
 margin_right = 106.5
 margin_bottom = -345.0
 rect_pivot_offset = Vector2( 106, 80 )
-theme = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -233,7 +230,7 @@ __meta__ = {
 [node name="btn_restart" type="Button" parent="win_screen/VBoxContainer"]
 margin_right = 213.0
 margin_bottom = 63.0
-theme = ExtResource( 8 )
+theme = ExtResource( 7 )
 text = "Рестарт"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -249,7 +246,7 @@ rect_min_size = Vector2( 0, 15 )
 margin_top = 86.0
 margin_right = 213.0
 margin_bottom = 149.0
-theme = ExtResource( 8 )
+theme = ExtResource( 7 )
 text = "Выход"
 __meta__ = {
 "_edit_use_anchors_": false

@@ -30,6 +30,11 @@ _global_script_classes=[ {
 "path": "res://logic/field.gd"
 }, {
 "base": "Object",
+"class": "Field_interact",
+"language": "GDScript",
+"path": "res://logic/player_field_interract.gd"
+}, {
+"base": "Object",
 "class": "Path_finder",
 "language": "GDScript",
 "path": "res://logic/move_checker.gd"
@@ -49,6 +54,7 @@ _global_script_class_icons={
 "Cell": "res://logic/cell.gd",
 "Checker": "res://logic/checker.gd",
 "Field": "res://logic/field.gd",
+"Field_interact": "",
 "Path_finder": "res://logic/move_checker.gd",
 "Player": "res://logic/player.gd",
 "field_activs": "res://logic/field_activs.gd"
