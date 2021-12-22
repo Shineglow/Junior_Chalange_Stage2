@@ -26,6 +26,8 @@ func _pos_seter(new_value: Vector2):
 		position = new_value
 		self.rect_position = self.position*rect_min_size
 
+
+
 signal on_cell_click(cell)
 
 func _ready():

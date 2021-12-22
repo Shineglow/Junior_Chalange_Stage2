@@ -32,5 +32,5 @@ func _pass_turn():
 func checker_recognition(checker: Checker):
 	return checkers.find(checker) != -1
 
-func checker_click(checker):
-	pass
+func checker_click(checker: Checker):
+	return checker_recognition(checker)

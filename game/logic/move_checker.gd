@@ -12,9 +12,12 @@ var current_cell_pos: Vector2
 const _arround = [Vector2(-1, -1),Vector2(0, -1), Vector2(1, -1), Vector2(-1, 0),Vector2(1, 0),Vector2(-1, 1),Vector2(0, 1),Vector2(1, 1)]
 const _arrow_name = ["move_upleft","move_up","move_upright","move_left","move_right","move_downleft","move_down","move_downright","move_jump"]
 
-func _init(field: Field):
-	_field = field
-	_field_size = field.size
+func _init(field):
+	set_current_cell_array(field)
+
+func set_current_cell_array(field):
+	_field = field.field
+	_field_size = _field.size()
 
 func find_moves_from_checker(checker_pos: Vector2):
 	current_cell_pos = checker_pos
@@ -29,7 +32,7 @@ func _get_empty_cells_arround(current: Vector2):
 	for i in 8:
 		var cell_pos = current + _arround[i]
 		if _is_coordinates_is_valid(cell_pos):
-			var current_cell = (_field.field[cell_pos.y][cell_pos.x] as Cell)
+			var current_cell = (_field[cell_pos.y][cell_pos.x] as Cell)
 			if !current_cell.is_checker_contain:
 				current_cell.change_move_arrow(_arrow_name[i])
 				current_cell.path_lenght = 1
@@ -40,20 +43,20 @@ func _get_empty_cells_arround(current: Vector2):
 
 func _try_jump(current: Vector2, last_path):
 	var jump_cells = []
-	_field.field[current.y][current.x].is_jump_arround_checking = true
+	_field[current.y][current.x].is_jump_arround_checking = true
 	
 	for i in 8:
 		var cell_pos = current + _arround[i]
 		
 		if _is_coordinates_is_valid(cell_pos):
-			var current_cell = (_field.field[cell_pos.y][cell_pos.x] as Cell)
+			var current_cell = (_field[cell_pos.y][cell_pos.x] as Cell)
 			if current_cell.is_checker_contain:
 				var next_pos = cell_pos + _arround[i]
 				if next_pos == current_cell_pos:
 					continue
 				
 				if _is_coordinates_is_valid(next_pos):
-					var next_cell = (_field.field[next_pos.y][next_pos.x] as Cell)
+					var next_cell = (_field[next_pos.y][next_pos.x] as Cell)
 					if !next_cell.is_checker_contain:
 						if next_cell.path_lenght == 0 or next_cell.path_lenght > last_path + 1:
 							next_cell.previews_cell_pos = current

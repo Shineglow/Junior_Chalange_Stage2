@@ -23,4 +23,6 @@ func is_oponent_corner_have_empty_cells(pos, mul):
 	return result
 
 func is_cell_contain_checker(x,y):
-	return _field[y][x].is_checker_contain
+	return _field.field[y][x].is_checker_contain
+
+

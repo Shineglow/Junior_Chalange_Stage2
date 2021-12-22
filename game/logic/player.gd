@@ -8,5 +8,6 @@ func human_end_turn():
 	_pass_turn()
 
 func checker_click(checker: Checker):
-	print("asdfasdfasdf")
-	return checker_recognition(checker)
+	var a = checker_recognition(checker)
+	print(a)
+	return a
