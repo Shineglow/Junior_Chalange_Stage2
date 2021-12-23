@@ -55,17 +55,15 @@ func start_new_game(new_field_size, new_corner_size):
 	var corner_down = Vector2(field_size-1, field_size-1)
 	
 	_player1 = init_player("White", corner_top, corner_down, true)
-	_player1.path_finder = Path_finder.new(field)
 	_interface_manager.connect("on_end_turn_click", _player1, "human_end_turn")
 	_player1.connect("end_turn", self, "end_turn")
 	
 	_player2 = init_bot(corner_down, corner_top, false)
-	_player2.path_finder = Path_finder.new(field)
 	_player2.connect("end_turn", self, "end_turn")
 	
 	current_player = _player2
 	oponent = _player1
-	
+	print("start game")
 	pass_turn()
 
 func pass_turn():
@@ -94,7 +92,7 @@ func select_checker(checker: Checker):
 func _select_checker_highlight_moves(checker: Checker):
 	field.select_checker_logic(checker)
 	for i in current_player.get_checker_moves(checker):
-		field.field[i.y][i.x].highlight(true)
+		field.field[i.y][i.x].is_highlight = true
 
 func check_game_end():
 	var cells_to_win = current_player.checkers.size()
@@ -112,6 +110,9 @@ func check_game_end():
 				return false
 	return true
 
+#
+# Инициализация классов игроков
+#
 func _init_base(base: field_activs, name, corner_start_pos, oponent_corner, is_playing_white):
 	base.name = name
 	base.is_playing_white = is_playing_white
@@ -131,8 +132,8 @@ func _init_base(base: field_activs, name, corner_start_pos, oponent_corner, is_p
 	else:
 		base.checkers = field.spawn_checkers(corner_start_pos, multiplier, 0)
 	
-	base.path_finder = Path_finder.new(field)
-	base.field_interface = Field_interact.new(field)
+	base.path_finder = Path_finder.new(field.field)
+	base.field = field
 
 func init_player(name, corner_start_pos, oponent_corner, is_playing_white):
 	var player = _player_instance.new()
@@ -142,7 +143,14 @@ func init_player(name, corner_start_pos, oponent_corner, is_playing_white):
 func init_bot(corner_start_pos, oponent_corner,is_playing_white):
 	var bot = _bot_instance.new()
 	_init_base(bot, "bot", corner_start_pos, oponent_corner, is_playing_white)
+	var oponent_checkers = []
+	for i in field.checkers:
+		if !bot.checker_recognition(i):
+			oponent_checkers.append(i)
+	bot.oponent_checkers = oponent_checkers
 	return bot
+
+
 
 func game_quit():
 	get_tree().quit()
@@ -162,3 +170,6 @@ func _input(event):
 				var pos1 = current_player.checkers[i].position
 				var pos2 = oponent.checkers[i].position
 				field.castling(pos1, pos2)
+		if event.scancode == KEY_Q:
+			for i in current_player.oponent_checkers:
+				print(i.position)

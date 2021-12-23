@@ -16,7 +16,7 @@ func _init(field):
 	set_current_cell_array(field)
 
 func set_current_cell_array(field):
-	_field = field.field
+	_field = field
 	_field_size = _field.size()
 
 func find_moves_from_checker(checker_pos: Vector2):
@@ -34,7 +34,7 @@ func _get_empty_cells_arround(current: Vector2):
 		if _is_coordinates_is_valid(cell_pos):
 			var current_cell = (_field[cell_pos.y][cell_pos.x] as Cell)
 			if !current_cell.is_checker_contain:
-				current_cell.change_move_arrow(_arrow_name[i])
+				current_cell.move_arrow = _arrow_name[i]
 				current_cell.path_lenght = 1
 				current_cell.previews_cell_pos = current
 				result_array.append(cell_pos)
@@ -63,7 +63,7 @@ func _try_jump(current: Vector2, last_path):
 							next_cell.path_lenght = last_path + 1
 						
 						if !next_cell.is_jump_arround_checking:
-							next_cell.change_move_arrow(_arrow_name[8])
+							next_cell.move_arrow = _arrow_name[8]
 							jump_cells.append(next_pos)
 							jump_cells.append_array(_try_jump(next_pos, last_path+1))
 	

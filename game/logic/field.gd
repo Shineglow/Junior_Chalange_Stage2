@@ -13,15 +13,16 @@ class custom_animator:
 		_path = path
 	
 	func animate_move_checker():
+		_moving_checker.set_position_safe(_target_cell.position)
 		_path.invert()
 		for i in _path:
-			var end = i*_target_cell.rect_min_size
-			var start = _moving_checker._graph.rect_position
+			var end = i*_target_cell.graph.rect_min_size
+			var start = _moving_checker.graph.rect_position
 			var time = _get_lenght(start-end)*0.005
-			_tween.interpolate_property(_moving_checker._graph, "rect_position", null, end, 0.5, Tween.TRANS_QUAD)
+			_tween.interpolate_property(_moving_checker.graph, "rect_position", null, end, 0.5, Tween.TRANS_QUAD)
 			_tween.start()
 			yield(_tween, "tween_completed")
-		_moving_checker.position = _target_cell.position
+		
 	
 	func _get_lenght(vec: Vector2):
 		return sqrt(vec.x*vec.x + vec.y*vec.y)
@@ -64,12 +65,12 @@ func init_field(new_field_size, corner_size):
 	
 	ghost_checker.modulate = Color(1,1,1, 0.5)
 	ghost_checker.visible = false
-	ghost_checker.rect_min_size = field[0][0].rect_min_size
+	ghost_checker.rect_min_size = _field_vision.get_child(0).rect_min_size
 
 func cell_click_react(cell: Cell):
 	if cell.is_highlight:
-		ghost_checker.texture = active_checker._graph.get_node("checker_texture").texture
-		ghost_checker.rect_position = cell.rect_position
+		ghost_checker.texture = active_checker.graph.get_node("checker_texture").texture
+		ghost_checker.rect_position = cell.graph.rect_position
 		ghost_checker.visible = true
 		gc_position = cell.position
 		is_already_move = true
@@ -135,37 +136,40 @@ func _generate_field(field_size: int):
 	for y in size:
 		field.append([])
 		for x in size:
-			var cell = CELL_TEMPLATE.instance()
-			field[y].append(cell)	
-			_field_vision.add_child(cell)
-			cell.connect("on_cell_click",self,"cell_click_react")
-			cell.rect_min_size = Vector2(unit_size, unit_size)
-			cell.rect_size = Vector2(unit_size, unit_size)
+			var cell_graph = CELL_TEMPLATE.instance()
+			_field_vision.add_child(cell_graph)
+			cell_graph.rect_min_size = Vector2(unit_size, unit_size)
+			cell_graph.rect_size = Vector2(unit_size, unit_size)
+			if ((x + y) % 2 == 0):
+				cell_graph.set_color(Color.cornsilk)
+			else:
+				cell_graph.set_color(Color.indianred)
+			
+			var cell = Cell.new()
+			field[y].append(cell)
+			cell.graph = cell_graph
 			cell.position = Vector2(x, y)
 			cell.checker_on_cell = null
 			cell.is_checker_contain = false
-			if ((x + y) % 2 == 0):
-				cell.set_color(Color.cornsilk)
-			else:
-				cell.set_color(Color.indianred)
+			cell.connect("on_cell_click",self,"cell_click_react")
 	print(field[0].size())
 
 func spawn_checkers(corner_start_position: Vector2, multiplier: int, texture_id: int):
 	var checkers = []
-	
 	for y in 3:
 		for x in 3:
 			var a = Checker.new(corner_start_position + (Vector2(x,y)*multiplier))
 			var a_graph = CHECKER_TEMPLATE.instance()
 			_checkers_vision.add_child(a_graph)
-			a_graph.set_graph_parameters(a.position, texture_id, (field[0][0] as Cell).rect_min_size)
+			a_graph.rect_min_size = _field_vision.get_child(0).rect_min_size
+			a_graph.rect_size = _field_vision.get_child(0).rect_min_size
+			a_graph.set_graph_parameters(texture_id)
 			a.connect("clicked", self, "checker_pressed")
+			self.checkers.append(a)
 			checkers.append(a)
-			a.init_graphics(a_graph)
+			a.graph = a_graph
 			(field[a.position.y][a.position.x] as Cell).checker_on_cell = a
 			(field[a.position.y][a.position.x] as Cell).is_checker_contain = true
-	
-	self.checkers.append_array(checkers)
 	return checkers
 
 # функция для проверки логики конца игры
@@ -205,5 +209,5 @@ func reset_checkers_of_player(player):
 func dehighlight_field():
 	for i in field:
 		for y in i:
-			y.highlight(false)
+			y.is_highlight = false
 			y.path_clear()

@@ -10,12 +10,9 @@ onready var selected = $selected
 
 signal on_checker_click(checker)
 
-func set_graph_parameters(position, tex_id, min_size):
+func set_graph_parameters(tex_id):
 	selected.visible = false
 	checker_texture.texture = textures[tex_id]
-	self.rect_min_size = min_size
-	self.rect_size = min_size
-	self.rect_position = position * min_size
 
 func _ready():
 	btn.connect("gui_input", self, "btn_gui_input")

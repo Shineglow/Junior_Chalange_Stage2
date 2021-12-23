@@ -2,7 +2,7 @@ extends Control
 
 class_name field_activs, "res://logic/field_activs.gd"
 
-var field_interface: Field_interact
+var field: Field
 var path_finder: Path_finder
 
 var start_position: Vector2
